@@ -176,10 +176,10 @@ OB 2x128 on SHD at 25 windows, worst case. A test recording has on average $N = 
 
 ## 6. What these numbers can and cannot say
 
-- They are computed, not measured: no chip was built or measured.
+- They are computed, not measured: no neuromorphic chip was used for measurments.
 - Every model is charged on the same imagined chip, so comparisons between models within one case are fair; the absolute values are indicative only.
 - The accounting covers on-chip memory and arithmetic for 8-bit numbers. It leaves out off-chip memory, idle and leakage power, and control logic.
-- The spiking neurons here are leaky (LIF and RadLIF). Dampfhoffer et al. found the simpler integrate-and-fire neuron more energy-efficient than leaky ones.
+- The spiking neurons here are leaky (LIF and RadLIF). Dampfhoffer et al. found the simpler integrate-and-fire neuron more energy-efficient than leaky ones, but they do not retain the kind of memory as you can expect from LIF.
 - The formulas in Section 5 are the ones implemented in the training notebooks (02_train_SHD and 03_train_SSC, Step 8), which follow the approach of Dampfhoffer et al.
 
 ## References
