@@ -1,7 +1,10 @@
-# Do networks use the order of events? SHD and SSC
+# Energy-Accuracy Tradeoff Benchmarking on Spatio-Temporal Datasets
+
+**Do networks use the order of events, and what does the extra accuracy cost in energy? SHD and SSC.**
 
 An independent research project that extends my UCLA COSMOS 2026 project on the energy efficiency of
-spiking neural networks (the rest of this repository).
+spiking neural networks
+([UCLA-COSMOS-SNN-Energy-efficiency](https://github.com/Avi-Seth/UCLA-COSMOS-SNN-Energy-efficiency)).
 
 Spiking networks are often said to use the timing of events. These Colab notebooks test whether
 networks trained on two spoken-word datasets, SHD and SSC, actually use the order of time windows, and
@@ -31,10 +34,10 @@ step has a short explanation, and the comments on the lines of code say what eac
 
 | notebook | what it does | GPU | what Run all does as the notebook is set |
 |---|---|---|---|
-| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Avi-SethEnergy-Accuracy-Tradeoff-Benchmarking-on-Spatio-Temporal-Datasets/main/SHD-SSC-order-of-events/01_explore_datasets.ipynb) `01_explore_datasets` | Opens SHD and SSC (and, if switched on, DVS128 Gesture), prints and draws recordings, cuts them into time windows exactly as the training notebooks do, and shows what the experiments do to the windows (shuffling, reversing, joining). | no | downloads SHD and SSC and draws everything |
-| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Avi-Seth/Energy-Accuracy-Tradeoff-Benchmarking-on-Spatio-Temporal-Datasets/blob/main/SHD-SSC-order-of-events/02_train_SHD.ipynb) `02_train_SHD` | SHD: defines every model, with why it is used, its architecture and how its energy is computed; runs self-checks; trains every model; saves accuracy and energy for every run. | yes | a quick test of the whole notebook |
-| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Avi-Seth/Energy-Accuracy-Tradeoff-Benchmarking-on-Spatio-Temporal-Datasets/blob/main/SHD-SSC-order-of-events/03_train_SSC.ipynb) `03_train_SSC` | The same for SSC. | yes | a quick test of the whole notebook |
-| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Avi-Seth/Energy-Accuracy-Tradeoff-Benchmarking-on-Spatio-Temporal-Datasets/blob/main/SHD-SSC-order-of-events/04_analyze_results.ipynb) `04_analyze_results` | Chooses the ceilings on held-out recordings, computes drop, gain and deficit with the decision rule, and makes every table (CSV and Markdown) and figure (PNG and PDF). | no | every table and figure of the study, from `results.zip`, in about a minute |
+| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Avi-Seth/Energy-Accuracy-Tradeoff-Benchmarking-on-Spatio-Temporal-Datasets/blob/main/01_explore_datasets.ipynb) `01_explore_datasets` | Opens SHD and SSC (and, if switched on, DVS128 Gesture), prints and draws recordings, cuts them into time windows exactly as the training notebooks do, and shows what the experiments do to the windows (shuffling, reversing, joining). | no | downloads SHD and SSC and draws everything |
+| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Avi-Seth/Energy-Accuracy-Tradeoff-Benchmarking-on-Spatio-Temporal-Datasets/blob/main/02_train_SHD.ipynb) `02_train_SHD` | SHD: defines every model, with why it is used, its architecture and how its energy is computed; runs self-checks; trains every model; saves accuracy and energy for every run. | yes | a quick test of the whole notebook |
+| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Avi-Seth/Energy-Accuracy-Tradeoff-Benchmarking-on-Spatio-Temporal-Datasets/blob/main/03_train_SSC.ipynb) `03_train_SSC` | The same for SSC. | yes | a quick test of the whole notebook |
+| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Avi-Seth/Energy-Accuracy-Tradeoff-Benchmarking-on-Spatio-Temporal-Datasets/blob/main/04_analyze_results.ipynb) `04_analyze_results` | Chooses the ceilings on held-out recordings, computes drop, gain and deficit with the decision rule, and makes every table (CSV and Markdown) and figure (PNG and PDF). | no | every table and figure of the study, from `results.zip`, in about a minute |
 
 1. Click a badge. The notebook opens in Colab.
 2. For `02` and `03`, choose a GPU: Runtime > Change runtime type.
@@ -80,7 +83,7 @@ two GPU sessions at once, at the same time.
 ## The analysis
 
 `04_analyze_results` needs no GPU. As it is set (`RESULTS = 'published'`), it downloads `results.zip`
-from this folder of the repository: the saved runs of the study (428 runs, one small file each, with every model's
+from this repository: the saved runs of the study (428 runs, one small file each, with every model's
 accuracy, its answer on every test recording and its energy estimate). It then remakes every table and
 figure. To analyse your own full runs instead, set `RESULTS = 'mine'`: the notebook reads them from
 `MY_RESULTS_DIR` on your Google Drive, and skips whatever has not been run yet.
