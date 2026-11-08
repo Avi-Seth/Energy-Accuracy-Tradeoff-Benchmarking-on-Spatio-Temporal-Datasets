@@ -1,8 +1,5 @@
 # References
 
-Numbered as in `References_How_They_Are_Used.docx`. Each entry ends with what the project takes from it.
-Bibliographic details were checked against publisher or index records. For Horowitz (2014), the
-original paper was not checked; its 8-bit cost figures were checked in a secondary copy.
 
 ## Data
 
