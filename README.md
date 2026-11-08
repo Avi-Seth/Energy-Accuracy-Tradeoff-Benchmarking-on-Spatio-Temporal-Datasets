@@ -8,12 +8,13 @@ spiking neural networks
 
 ## Contributions and AI use
 
-This is an independent follow-up to my UCLA COSMOS 2026 project. I had no mentor; I discussed the project once with my school computer science teacher.
+This is an independent follow-up to my UCLA COSMOS 2026 project, done on my own after the program
 
 - **My work:** I read the research papers, framed the question (whether networks use the order of events, and what the extra accuracy costs), designed the experiment (the order-blind ceiling, the shuffled-window test, the drop = gain + deficit decomposition), chose the network architectures and the energy cases, and did the analysis and conclusions.
 - **AI assistance:** Claude Opus (Anthropic) wrote most of the code to my specifications: dataset loading and checks, the model implementations, the training runs, the energy accounting, and the analysis tables and figures. It also helped draft the explanations in the notebooks, this README and Network_Architectures_and_Energy_Calculations.md, which I edited.
 - **Other code:** the RadLIF model is adapted from SpArch (Idiap Research Institute, BSD-3-Clause), as credited below.
 - **Checking:** I ran every notebook, checked the results against the saved outputs, and take responsibility for the code and the conclusions.
+- **Work still in progress as of 8 Nov 2026** This is not a completed version of my work. I am still to complete re-audit my analysis and conclusions. 
 
 - **Methodology:** 
 Spiking networks are often said to use the timing of events. These Colab notebooks test whether
