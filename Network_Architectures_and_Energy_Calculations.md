@@ -19,9 +19,9 @@ A recording in SHD (Spiking Heidelberg Digits, 20 classes) or SSC (Spiking Speec
 
 ## 3. The three kinds of model
 
-- Count classifier: sees only each channel's total number of spikes over the whole recording. It is the floor that every other model should beat.
-- Order-blind designs: apply the same small network to every window and combine the results by adding, averaging or taking the maximum, which cannot depend on the order of the windows. The best of them on held-out recordings is the order-blind ceiling.
-- Order-using networks: read the windows in order (spiking networks, a plain recurrent network, an LSTM and RadLIF). Each is trained twice from the same seed: with the windows in order, and with every recording's windows shuffled.
+- *Count classifier*: sees only each channel's total number of spikes over the whole recording. It is the floor that every other model should beat.
+- *Order-blind designs*: apply the same small network to every window and combine the results by adding, averaging or taking the maximum, which cannot depend on the order of the windows. The best of them on held-out recordings is the order-blind ceiling.
+- *Order-using networks*: read the windows in order (spiking networks, a plain recurrent network, an LSTM and RadLIF). Each is trained twice from the same seed: with the windows in order, and with every recording's windows shuffled.
 
 Every model is trained with 5 seeds on SHD and 3 seeds on SSC. In most models every channel is first scaled as $(\text{count} - \text{mean}) / \text{spread}$, with numbers fixed from the training recordings.
 
