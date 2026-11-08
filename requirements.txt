@@ -1,0 +1,12 @@
+# For running the notebooks in Jupyter on your own computer. On Colab nothing needs installing: the
+# training notebooks install snnTorch themselves, and 01 installs tonic when DVS128 Gesture is switched on.
+numpy>=1.24
+pandas>=2.0
+h5py>=3.8
+matplotlib>=3.7
+tqdm>=4.65
+torch>=2.1
+snntorch==1.0.0     # the training notebooks check their spiking neurons against snnTorch's
+tonic               # only for DVS128 Gesture in 01_explore_datasets (RUN_DVS = True)
+jupyterlab
+ipywidgets          # progress bars in Jupyter
