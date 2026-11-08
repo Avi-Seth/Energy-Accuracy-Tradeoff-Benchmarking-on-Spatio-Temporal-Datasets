@@ -114,27 +114,28 @@ point to Colab's `/content/` folder. Google Drive is not needed when `USE_DRIVE 
 
 ## Data, code and credits
 
-- SHD and SSC: B. Cramer, Y. Stradmann, J. Schemmel and F. Zenke, The Heidelberg Spiking Data Sets for
-  the Systematic Evaluation of Spiking Neural Networks, IEEE Transactions on Neural Networks and
+- **SHD and SSC:** B. Cramer, Y. Stradmann, J. Schemmel and F. Zenke, The Heidelberg Spiking Data Sets
+  for the Systematic Evaluation of Spiking Neural Networks, IEEE Transactions on Neural Networks and
   Learning Systems 33(7), 2744-2757 (2022), doi:10.1109/TNNLS.2020.3044364. The datasets are licensed
-  under Creative Commons BY 4.0 (https://creativecommons.org/licenses/by/4.0/) and are downloaded from
-  https://zenkelab.org/datasets/; they are not part of this repository.
-- DVS128 Gesture: A. Amir et al., A Low Power, Fully Event-Based Gesture Recognition System, IEEE
-  Conference on Computer Vision and Pattern Recognition (CVPR) 2017, 7243-7252; the version used is the
-  one the tonic library downloads (https://tonic.readthedocs.io).
-- RadLIF: A. Bittar and P. N. Garner, A surrogate gradient spiking baseline for speech command
+  under Creative Commons Attribution 4.0 International (https://creativecommons.org/licenses/by/4.0/)
+  and are downloaded from https://zenkelab.org/datasets/; they are not part of this repository.
+- **DVS128 Gesture** (exploration notebook only, off by default): A. Amir et al., A Low Power, Fully
+  Event-Based Gesture Recognition System, 2017 IEEE Conference on Computer Vision and Pattern
+  Recognition (CVPR), 7388-7397, doi:10.1109/CVPR.2017.781; downloaded with the tonic library
+  (https://tonic.readthedocs.io/en/latest/generated/tonic.datasets.DVSGesture.html).
+- **RadLIF:** A. Bittar and P. N. Garner, A surrogate gradient spiking baseline for speech command
   recognition, Frontiers in Neuroscience 16, 865897 (2022), doi:10.3389/fnins.2022.865897. The RadLIF
   code in `02_train_SHD.ipynb` is adapted from SpArch (https://github.com/idiap/sparch), Copyright 2022
   Idiap Research Institute, BSD-3-Clause; its notice is kept in the notebook.
-- Leaky and recurrent leaky neurons as in snnTorch: J. K. Eshraghian et al., Training Spiking Neural
-  Networks Using Lessons From Deep Learning, Proceedings of the IEEE 111(9), 1016-1054 (2023),
+- **Leaky and recurrent leaky neurons as in snnTorch:** J. K. Eshraghian et al., Training Spiking
+  Neural Networks Using Lessons From Deep Learning, Proceedings of the IEEE 111(9), 1016-1054 (2023),
   doi:10.1109/JPROC.2023.3308088. The training notebooks check that their neurons give the same
   outputs and gradients as snnTorch 1.0.0's.
-- Energy accounting: M. Dampfhoffer, T. Mesquida, A. Valentian and L. Anghel, Are SNNs Really More
+- **Energy accounting:** M. Dampfhoffer, T. Mesquida, A. Valentian and L. Anghel, Are SNNs Really More
   Energy-Efficient Than ANNs? An In-Depth Hardware-Aware Study, IEEE Transactions on Emerging Topics in
-  Computational Intelligence 7(3), 731-741, doi:10.1109/TETCI.2022.3214509; costs per operation based
-  on M. Horowitz, Computing's energy problem (and what we can do about it), IEEE International
-  Solid-State Circuits Conference (ISSCC) 2014, Digest of Technical Papers, 10-14,
+  Computational Intelligence 7(3), 731-741 (2023), doi:10.1109/TETCI.2022.3214509; costs per operation
+  from M. Horowitz, Computing's energy problem (and what we can do about it), 2014 IEEE International
+  Solid-State Circuits Conference (ISSCC), Digest of Technical Papers, 10-14,
   doi:10.1109/ISSCC.2014.6757323.
 
-The full reference list is in `REFERENCES.md`.
+The full list of 14 references is in `REFERENCES.md`.
