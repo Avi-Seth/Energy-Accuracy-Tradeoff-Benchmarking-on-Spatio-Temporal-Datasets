@@ -179,12 +179,12 @@ OB 2x128 on SHD at 25 windows, worst case. A test recording has on average $N = 
 - They are computed, not measured: no neuromorphic chip was used for measurments.
 - Every model is charged on the same imagined chip, so comparisons between models within one case are fair; the absolute values are indicative only.
 - The accounting covers on-chip memory and arithmetic for 8-bit numbers. It leaves out off-chip memory, idle and leakage power, and control logic.
-- The spiking neurons here are leaky (LIF and RadLIF). Dampfhoffer et al. found the simpler integrate-and-fire neuron more energy-efficient than leaky ones, but they do not retain the kind of memory as you can expect from LIF.
+- The spiking neurons here are leaky (LIF and RadLIF). Dampfhoffer et al. found the simpler integrate-and-fire neuron more energy-efficient than leaky ones, but LIF neurons are closer to actual human brain neuron. 
 - The formulas in Section 5 are the ones implemented in the training notebooks (02_train_SHD and 03_train_SSC, Step 8), which follow the approach of Dampfhoffer et al.
 
 ## References
 
-1. M. Dampfhoffer, T. Mesquida, A. Valentian and L. Anghel, Are SNNs Really More Energy-Efficient Than ANNs? An In-Depth Hardware-Aware Study, IEEE Transactions on Emerging Topics in Computational Intelligence 7(3), 731-741 (2022), doi:10.1109/TETCI.2022.3214509.
+1. M. Dampfhoffer, T. Mesquida, A. Valentian and L. Anghel, Are SNNs Really More Energy-Efficient Than ANNs? An In-Depth Hardware-Aware Study, IEEE Transactions on Emerging Topics in Computational Intelligence 7(3), 731-741 (2023; published online 2022), doi:10.1109/TETCI.2022.3214509.
 2. M. Horowitz, Computing's energy problem (and what we can do about it), IEEE International Solid-State Circuits Conference (ISSCC) 2014, Digest of Technical Papers, 10-14, doi:10.1109/ISSCC.2014.6757323.
 3. A. Bittar and P. N. Garner, A surrogate gradient spiking baseline for speech command recognition, Frontiers in Neuroscience 16, 865897 (2022), doi:10.3389/fnins.2022.865897.
 4. B. Cramer, Y. Stradmann, J. Schemmel and F. Zenke, The Heidelberg Spiking Data Sets for the Systematic Evaluation of Spiking Neural Networks, IEEE Transactions on Neural Networks and Learning Systems 33(7), 2744-2757 (2022), doi:10.1109/TNNLS.2020.3044364.
