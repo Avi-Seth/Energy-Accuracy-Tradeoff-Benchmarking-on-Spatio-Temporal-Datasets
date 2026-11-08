@@ -6,6 +6,16 @@ An independent research project that extends my UCLA COSMOS 2026 project on the 
 spiking neural networks
 ([UCLA-COSMOS-SNN-Energy-efficiency](https://github.com/Avi-Seth/UCLA-COSMOS-SNN-Energy-efficiency)).
 
+## Contributions and AI use
+
+This is an independent follow-up to my UCLA COSMOS 2026 project. I had no mentor; I discussed the project once with my school computer science teacher.
+
+- **My work:** I read the research papers, framed the question (whether networks use the order of events, and what the extra accuracy costs), designed the experiment (the order-blind ceiling, the shuffled-window test, the drop = gain + deficit decomposition), chose the network architectures and the energy cases, and did the analysis and conclusions.
+- **AI assistance:** Claude Opus (Anthropic) wrote most of the code to my specifications: dataset loading and checks, the model implementations, the training runs, the energy accounting, and the analysis tables and figures. It also helped draft the explanations in the notebooks, this README and Network_Architectures_and_Energy_Calculations.md, which I edited.
+- **Other code:** the RadLIF model is adapted from SpArch (Idiap Research Institute, BSD-3-Clause), as credited below.
+- **Checking:** I ran every notebook, checked the results against the saved outputs, and take responsibility for the code and the conclusions.
+
+- **Methodology:** 
 Spiking networks are often said to use the timing of events. These Colab notebooks test whether
 networks trained on two spoken-word datasets, SHD and SSC, actually use the order of time windows, and
 what each model would cost in energy.
@@ -27,8 +37,6 @@ A network can only be said to need the order by at most its gain over the order-
 per recording is computed (not measured) with a hardware-aware accounting, in three cases from no data
 reuse to weights kept on the chip.
 
-The notebooks are written for readers who know how a neural network learns but are new to code: every
-step has a short explanation, and the comments on the lines of code say what each line does.
 
 ## Run it in Colab
 
