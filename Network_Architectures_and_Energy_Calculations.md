@@ -1,6 +1,5 @@
 # Network Architectures and Energy Accounting
 
-*Independent research: do networks use the order of events on SHD and SSC, and what does extra accuracy cost in energy?*
 
 ## 1. What this document covers
 
