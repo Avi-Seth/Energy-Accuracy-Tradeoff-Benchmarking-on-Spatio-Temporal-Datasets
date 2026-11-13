@@ -14,9 +14,9 @@ This is an independent follow-up to my UCLA COSMOS 2026 project, done on my own 
 - **AI assistance:** Claude Opus (Anthropic) wrote most of the code to my specifications: dataset loading and checks, the model implementations, the training runs, the energy accounting, and the analysis tables and figures. It also helped draft the explanations in the notebooks, this README and Network_Architectures_and_Energy_Calculations.md, which I edited.
 - **Other code:** the RadLIF model is adapted from SpArch (Idiap Research Institute, BSD-3-Clause), as credited below.
 - **Checking:** I ran every notebook, checked the results against the saved outputs, and take responsibility for the code and the conclusions.
-- **Work still in progress as of 8 Nov 2026** This is not a completed version of my work. I am still to complete re-audit my analysis and conclusions. 
-
-- **Methodology:** 
+- **Work still in progress as of 13 Nov 2026 ** This is not a completed version of my work. I have not finished re-auditing the analysis and conclusions.
+  
+## Methodology
 Spiking networks are often said to use the timing of events. These Colab notebooks test whether
 networks trained on two spoken-word datasets, SHD and SSC, actually use the order of time windows, and
 what each model would cost in energy.
@@ -38,8 +38,32 @@ A network can only be said to need the order by at most its gain over the order-
 per recording is computed (not measured) with a hardware-aware accounting, in three cases from no data
 reuse to weights kept on the chip.
 
+## Interim results (analysis ongoing)
 
-## Run it in Colab
+![The price of accuracy](figures/figure4_price_of_accuracy.png)
+
+*Figure 4 of `04_analyze_results`: test accuracy against energy per recording (worst case,
+no data reuse; computed, not measured). Each line is a frontier; dashed lines are the
+order-blind ceilings.*
+
+- **Scrambling lowered every network's accuracy**, but a model that never sees the order did
+  as well as or better than most networks. The small spiking networks (128 neurons) scored
+  below it in every setting: 68.3 to 72.0% on SHD against a ceiling of 83.4%, and 51.5% or
+  less on SSC against 62.1%.
+- **Only three cases clearly beat the order-blind ceiling:** RadLIF on SHD (+4.9 points at
+  25 windows, +10.3 at 14 ms) and the LSTM on SSC (+5.2).
+- **A large drop is not a large need for order.** Scrambling cost SNN-R 128 on SSC 30.0
+  points, yet with the order intact it was still 10.6 points below the ceiling.
+- **Accuracy above the ceiling was expensive:** every step above it cost 3.8 to 7.8 times the
+  energy of the model before it (worst case).
+
+**Limits.** Each ceiling is the best of seven or eight order-blind designs, so a better one
+could shrink the gains. Energy is computed from operation counts, not measured on hardware.
+5 seeds on SHD, 3 on SSC. One control check is not yet met: on the negative control, the
+LSTM's accuracy rose 1.0 ± 0.3 points when its windows were shuffled again.
+
+
+## Run it in Colab (Need permission to access G Drive)
 
 | notebook | what it does | GPU | what Run all does as the notebook is set |
 |---|---|---|---|
