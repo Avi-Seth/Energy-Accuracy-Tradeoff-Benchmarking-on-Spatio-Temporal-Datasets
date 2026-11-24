@@ -14,10 +14,10 @@ on every test recording as the saved run. I have not finished re-auditing the an
 
 I am a high-school student. This section says plainly what I did, what an AI assistant did, and which decisions were made after the results were known.
 
-- **My work:** I read the research papers, framed the question (to what extent networks use the order of
+- **My work:** I read the research papers, framed the question (To what extent networks use the order of
   events, and what the extra accuracy costs), designed the experiment (the order-blind ceiling, the
   shuffled-window test, the drop = gain + deficit decomposition), chose the network architectures and
-  the energy cases, and am checking the analysis and the conclusions myself; the final checck is in progress.
+  the energy cases, and am checking the analysis and the conclusions myself; the final check is in progress.
 - **How the question took shape:** After my COSMOS Project, I wanted to further explore the energy 
   efficiency claims of SNNs on Spatio-temporal datasets. While reading further i saw research papers
   using LSTM / RNN, and SNNs with RADLIF's on SHD & SSC datasets. Considering many different papers focusing on different 
@@ -44,16 +44,16 @@ I am a high-school student. This section says plainly what I did, what an AI ass
    These designs were never trained on SSC. However, dropping of these designs does not materially change the analysis 
    and conclusions being drawn. Adding them back moves the 25-window ceiling from 83.4% to 84.2% and the LSTM's gain
    from +2.4 to +1.6 points.
-3. **The energy accounting was revised after the runs in early November 2026, to follow Dampfhoffer et al.
+2. **The energy accounting** was revised after the runs in early November 2026, to follow Dampfhoffer et al.
    more closely: in the worst case the first layer of a conventional network now pays for every input
    cell, and the two best cases now charge every register access and memory access that their
    equations list. Energy is computed in `04_analyze_results`, from counts that the runs saved, so the
    revision changed no accuracy, no gain and no verdict. The earlier accounting is in this
    repository's history.
-4. **The LSTM verdict on SHD at 25 windows depends on which designs compete for the ceiling.** Against
+3. **The LSTM verdict on SHD at 25 windows depends on which designs compete for the ceiling.** Against
    the ceiling of the seven designs of its size its gain (+2.4 points) does not pass the decision
    rule; against the ceiling of all eight designs (+4.0 points) it does. Both are reported (Table S1).
-5. **Earlier exploratory runs shaped the study.** Before the final runs, exploratory runs between 
+4. **Earlier exploratory runs shaped the study.** Before the final runs, exploratory runs between 
    August and October 2026 were used to choose the designs and settings.
 
 ## Methodology
