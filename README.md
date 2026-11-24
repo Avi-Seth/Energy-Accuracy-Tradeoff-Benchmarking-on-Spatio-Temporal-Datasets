@@ -63,8 +63,9 @@ Every recording is cut into time windows of spike counts (one row per window, on
 channel). Three kinds of model read these tables:
 
 - a **count classifier** sees only each channel's total over the recording;
-- **order-blind designs** see every window but never their order; the best of them on held-out
-  recordings is the order-blind ceiling *r*;
+- **order-blind designs** see every window but never their order: they apply the same small network to
+  every window and combine the windows by their sum or mean (the Deep Sets form) or by their maximum
+  (as in PointNet). The best of them on held-out recordings is the order-blind ceiling *r*;
 - **order-using networks** (spiking networks, a recurrent network, LSTMs and RadLIF) are trained twice
   from the same seed: windows in order (test accuracy *a0*) and windows shuffled (*a1*).
 
@@ -236,5 +237,12 @@ point to Colab's `/content/` folder. Google Drive is not needed when `USE_DRIVE 
   from M. Horowitz, Computing's energy problem (and what we can do about it), 2014 IEEE International
   Solid-State Circuits Conference (ISSCC), Digest of Technical Papers, 10-14,
   doi:10.1109/ISSCC.2014.6757323.
+- **Order-blind designs:** M. Zaheer, S. Kottur, S. Ravanbakhsh, B. Poczos, R. Salakhutdinov and
+  A. Smola, Deep Sets, Advances in Neural Information Processing Systems 30 (NIPS 2017),
+  arXiv:1703.06114 (a function that does not depend on the order of its inputs can be written as
+  $\rho\left(\sum_t \phi(x_t)\right)$); C. R. Qi, H. Su, K. Mo and L. J. Guibas, PointNet: Deep Learning on
+  Point Sets for 3D Classification and Segmentation, 2017 IEEE Conference on Computer Vision and
+  Pattern Recognition (CVPR), 77-85, doi:10.1109/CVPR.2017.16 (combining the elements by their
+  maximum).
 
 The full list of 15 references is in `REFERENCES.md`.
