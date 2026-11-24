@@ -17,7 +17,7 @@ I am a high-school student. This section says plainly what I did, what an AI ass
 - **My work:** I read the research papers, framed the question (to what extent networks use the order of
   events, and what the extra accuracy costs), designed the experiment (the order-blind ceiling, the
   shuffled-window test, the drop = gain + deficit decomposition), chose the network architectures and
-  the energy cases, and did the analysis and conclusions.
+  the energy cases, and am checking the analysis and the conclusions myself; the final checck is in progress.
 - **How the question took shape:** After my COSMOS Project, I wanted to further explore the energy 
   efficiency claims of SNNs on Spatio-temporal datasets. While reading further i saw research papers
   using LSTM / RNN, and SNNs with RADLIF's on SHD & SSC datasets. Considering many different papers focusing on different 
