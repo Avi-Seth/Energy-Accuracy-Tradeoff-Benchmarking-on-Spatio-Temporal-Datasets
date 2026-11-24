@@ -1,6 +1,6 @@
 # Energy-Accuracy Tradeoff Benchmarking on Spatio-Temporal Datasets
 
-**How networks use the order of events, and what does the extra accuracy cost in energy?**
+**To what extent networks use the order of events, and what does the extra accuracy cost in energy?**
 
 An independent research project that extends my UCLA COSMOS 2026 project on the energy efficiency of
 spiking neural networks
@@ -25,12 +25,14 @@ I am a high-school student. This section says plainly what I did, what an AI ass
   I also included Deep sets inspired ANN designs as Order blind networks in this benchmarking.   
 - **AI assistance:** Claude Opus (Anthropic) wrote most of the code to my specifications: dataset
   loading and checks, the model implementations, the energy accounting, and figures/charts. It also 
-  helped draft the explanations in the notebooks, and this README which I edited. 
+  helped draft the explanations in the notebooks, and this README which I edited.
+- **Help from Others:** I discussed the project idea with my School CS teacher, and my parents gave me feedback to
+  keep me stay focused and sharpen the work.
 - **Other code:** the RadLIF model is adapted from SpArch (Idiap Research Institute, BSD-3-Clause), as
   credited below.
 - **Checking:** I ran every notebook, checked the results against the saved outputs, and take
   responsibility for the code and the conclusions. On 22 Nov 2026 all 428 runs were repeated with the
-  published notebooks on an NVIDIA L4 GPU (PyTorch 2.14.1 on Google Colab. 
+  published notebooks with an NVIDIA L4 GPU (PyTorch 2.14.1 on Google Colab). 
 
 ### Decisions made after the results were known
 
@@ -39,18 +41,19 @@ I am a high-school student. This section says plainly what I did, what an AI ass
    order-blind designs (5 seeds at each of the two SHD settings, 100 runs). I dropped them to keep the
    study smaller and to use the same set of designs on SHD and SSC; finding the highest possible
    ceiling was not the aim. Their runs are published in `dropped_order_blind_designs.zip`.
-   These designs were never trained on SSC. However, dropping of these designs does not change the analysis 
-   and conclusions being drawn.
-2. **The energy accounting was revised after the runs** (November 2026), to follow Dampfhoffer et al.
+   These designs were never trained on SSC. However, dropping of these designs does not materially change the analysis 
+   and conclusions being drawn. Adding them back moves the 25-window ceiling from 83.4% to 84.2% and the LSTM's gain
+   from +2.4 to +1.6 points.
+3. **The energy accounting was revised after the runs in early November 2026, to follow Dampfhoffer et al.
    more closely: in the worst case the first layer of a conventional network now pays for every input
    cell, and the two best cases now charge every register access and memory access that their
    equations list. Energy is computed in `04_analyze_results`, from counts that the runs saved, so the
    revision changed no accuracy, no gain and no verdict. The earlier accounting is in this
    repository's history.
-3. **The LSTM verdict on SHD at 25 windows depends on which designs compete for the ceiling.** Against
+4. **The LSTM verdict on SHD at 25 windows depends on which designs compete for the ceiling.** Against
    the ceiling of the seven designs of its size its gain (+2.4 points) does not pass the decision
    rule; against the ceiling of all eight designs (+4.0 points) it does. Both are reported (Table S1).
-4. **Earlier exploratory runs shaped the study.** Before the final runs, exploratory runs between 
+5. **Earlier exploratory runs shaped the study.** Before the final runs, exploratory runs between 
    August and October 2026 were used to choose the designs and settings.
 
 ## Methodology
@@ -175,7 +178,7 @@ recordings take about 5 GB of memory as 8-bit counts.
 Measured GPU hours on an NVIDIA L4. Before training, every notebook times each model on the GPU you have
 and prints its own estimate; a progress bar then shows the time left.
 
-| notebook | experiment | what | runs | first full run (Nov 2026) | repeat run (22 Nov 2026) |
+| notebook | experiment | what | runs | full run (Early Nov 2026) | repeat run (22 Nov 2026) |
 |---|---|---|---|---|---|
 | `02_train_SHD` | `shd_controls` | control tasks with known answers (chains, reversal, negative control) | 150 | 1.59 | 0.85 |
 | `02_train_SHD` | `shd_25` | SHD, 25 windows per recording, five seeds | 125 | 1.14 | 1.14 |
@@ -239,7 +242,8 @@ point to Colab's `/content/` folder. Google Drive is not needed when `USE_DRIVE 
   doi:10.1109/ISSCC.2014.6757323.
 - **Order-blind designs:** M. Zaheer, S. Kottur, S. Ravanbakhsh, B. Poczos, R. Salakhutdinov and
   A. Smola, Deep Sets, Advances in Neural Information Processing Systems 30 (NIPS 2017),
-  arXiv:1703.06114 (a function that does not depend on the order of its inputs can be written as
+  arXiv:1703.06114 (a function that does not depend on the order of its inputs, when they come from a
+  countable set such as whole-number spike counts, can be written as
   $`\rho\left(\sum_t \phi(x_t)\right)`$); C. R. Qi, H. Su, K. Mo and L. J. Guibas, PointNet: Deep Learning on
   Point Sets for 3D Classification and Segmentation, 2017 IEEE Conference on Computer Vision and
   Pattern Recognition (CVPR), 77-85, doi:10.1109/CVPR.2017.16 (combining the elements by their
