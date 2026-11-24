@@ -240,7 +240,7 @@ point to Colab's `/content/` folder. Google Drive is not needed when `USE_DRIVE 
 - **Order-blind designs:** M. Zaheer, S. Kottur, S. Ravanbakhsh, B. Poczos, R. Salakhutdinov and
   A. Smola, Deep Sets, Advances in Neural Information Processing Systems 30 (NIPS 2017),
   arXiv:1703.06114 (a function that does not depend on the order of its inputs can be written as
-  $\rho\left(\sum_t \phi(x_t)\right)$); C. R. Qi, H. Su, K. Mo and L. J. Guibas, PointNet: Deep Learning on
+  $`\rho\left(\sum_t \phi(x_t)\right)`$); C. R. Qi, H. Su, K. Mo and L. J. Guibas, PointNet: Deep Learning on
   Point Sets for 3D Classification and Segmentation, 2017 IEEE Conference on Computer Vision and
   Pattern Recognition (CVPR), 77-85, doi:10.1109/CVPR.2017.16 (combining the elements by their
   maximum).
