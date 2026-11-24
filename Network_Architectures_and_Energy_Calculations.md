@@ -95,16 +95,17 @@ Numbers are 8-bit, and the costs are those of a 45 nm technology from Horowitz (
 | $c$ | 0.23 pJ | one 8-bit multiply-add (multiplication 0.2 pJ + addition 0.03 pJ) |
 | $a$ | 0.03 pJ | one 8-bit addition |
 
+One register access is priced as one multiply-add, $c$ (Dampfhoffer et al., Table I, whose 65 nm row gives this ratio; using it at 45 nm is an assumption).
+
 **Table 4.** Costs of the operations the models perform.
 
 | Operation | Cost | pJ | What is charged |
 |---|---|---|---|
 | spike delivered to one synapse | $3m + a$ | 3.78 | read the weight; read and write the target neuron's state; one addition |
-| first-layer multiply-add on a non-empty cell | $3m + c$ | 3.98 | read the weight; read and write the partial sum |
-| any other multiply-add, no reuse | $4m + c$ | 5.23 | read input and weight; read and write the partial sum |
-| multiply-add with ideal reuse | $m + 4c$ | 2.17 | weight read once; the rest in registers |
-| multiply-add, weights kept on chip | $4c + m/T$ | depends on $T$ | weight read once per recording of $T$ windows |
-| spike with its weight in a register | $2m + c + a$ | 2.76 |  |
+| multiply-add, no reuse | $4m + c$ | 5.23 | read input and weight; read and write the partial sum |
+| multiply-add with reuse, non-zero input | $m + 5c$ | 2.40 | weight read once; four register accesses; one multiply-add |
+| multiply-add with reuse, zero input | $m + c$ | 1.48 | weight read once; input read into a register; nothing computed |
+| spike with its weight in a register | $2m + c + a$ | 2.76 | across the windows |
 | neuron state update | $2m + c$ | 2.73 | read the state, write it back, one multiply-add |
 | spike added to a channel total | $2m + a$ | 2.53 | count classifier |
 
@@ -112,67 +113,73 @@ Numbers are 8-bit, and the costs are those of a 45 nm technology from Horowitz (
 
 - Worst case: no data is reused; every operand is read from memory each time.
 - Best case within a window: every weight is read once per window.
-- Best case across the windows: the weights stay on the chip for the whole recording.
+- Best case across the windows: each weight is read from memory once per recording and then kept on the chip for all of its windows.
 
 Models are only compared within one case. A conclusion that holds in all three cases does not depend on how well the hardware reuses data.
 
 ### 5.4 The formulas
 
-Per test recording: $T$ windows, $C = 700$ channels, $S$ input spikes, $N$ non-empty (window, channel) cells.
+Per test recording: $T$ windows, $C = 700$ channels, $S$ input spikes, $N$ non-empty (window, channel) cells and $K$ classes.
 
-Conventional networks and order-blind designs. $W_1$ is the width of the first layer, $P$ the multiply-adds per window after the first layer, and $Q$ the multiply-adds of a part that runs once per recording. Empty cells cost only their read:
-
-$$
-E_{\text{worst}} = T\,C\,m + N\,W_1\,(3m + c) + (T\,P + Q)\,(4m + c)
-$$
+Conventional networks and order-blind designs are charged layer by layer. A fully connected layer has $F$ inputs and $O$ outputs and runs $r$ times per recording ($r = T$ if it runs in every window, $r = 1$ if it runs once). $z$ is the number of non-zero inputs it receives per recording: $z = N$ for the first layer, and $z = rF$ for the other layers (their values are treated as non-zero).
 
 $$
-E_{\text{within}} = T\,C\,m + (N\,W_1 + T\,P + Q)\,(m + 4c)
+E_{\text{worst}} = r\,F\,O\,(4m + c)
 $$
 
 $$
-E_{\text{across}} = T\,C\,m + (N\,W_1 + T\,P)\left(4c + \frac{m}{T}\right) + Q\,(m + 4c)
+E_{\text{within}} = r\,F\,m + r\,F\,O\,m + 2\,r\,O\,m + r\,F\,O\,c + 4c\,z\,O
 $$
 
-Spiking networks. The first layer is charged either per input spike, $S\,H\,(3m + a)$, or per non-empty cell, $N\,H\,(3m + c)$, where $H$ is the number of neurons each input reaches. The worst case takes the dearer of the two; the within and across cases take the cheaper of two options:
-
 $$
-E_{\text{first layer}} =
-\begin{cases}
-\max\bigl(S\,H\,(3m + a),\; N\,H\,(3m + c)\bigr) & \text{worst} \\[4pt]
-\min\bigl(S\,H\,(3m + a),\; N\,H\,(m + 4c)\bigr) & \text{within} \\[4pt]
-\min\bigl(S\,H\,(2m + c + a),\; N\,H\,(4c + m/T)\bigr) & \text{across}
-\end{cases}
+E_{\text{across}} = r\,F\,m + F\,O\,m + 2\,r\,O\,m + r\,F\,O\,c + 4c\,z\,O
 $$
 
-Every hidden spike costs $3m + a$ per synapse it reaches ($2m + c + a$ across the windows), and every neuron state costs $2m + c$ per window. The hidden spikes are counted on the test recordings, so a network that spikes less is charged less.
+The five terms are: each input read once per run; each weight read once per run (within a window) or once per recording (across the windows); each partial sum read and written once; the register read of the input for every multiply-add; and, for non-zero inputs only, the multiply-add with three more register accesses. A model's energy is the sum over its layers.
+
+Spiking networks. $H$ is the number of neurons each input reaches, $X$ the hidden synaptic events (hidden spikes times the synapses each reaches) and $U$ the neuron state updates per recording:
+
+$$
+E_{\text{worst}} = S\,H\,(3m + a) + X\,(3m + a) + U\,(2m + c)
+$$
+
+$$
+E_{\text{within}} = \min\bigl(S\,H\,(3m + a),\; E^{1}_{\text{within}}\bigr) + X\,(3m + a) + U\,(2m + c)
+$$
+
+$$
+E_{\text{across}} = \min\bigl(S\,H\,(2m + c + a),\; E^{1}_{\text{across}}\bigr) + X\,(2m + c + a) + U\,(2m + c)
+$$
+
+where $E^{1}$ is the first layer run as a conventional layer ($F = 700$, $O = H$, $r = T$, $z = N$). The hidden spikes are counted on the test recordings, so a network that spikes less is charged less.
 
 ### 5.5 What each model is charged
 
-**Table 5.** The numbers put into the formulas for each model.
+**Table 5.** The layers of each model ($F \to O$, and $r$: $T$ = every window, 1 = once per recording).
 
 | Model | Charged as ($K$ = number of classes) |
 |---|---|
-| Count classifier | each input spike added to its channel total ($2m + a$); the 700 totals read once; its two layers once per recording on the non-empty totals |
-| OB scores 128 | $W_1 = 128$; $P = 128 \times K$; $Q = 0$ |
-| OB mean $h$ ($h = 128$ or $512$) | $W_1 = h$; $P = 0$; $Q = h \times 128 + 128 \times K$ |
-| OB 2x128 | $W_1 = 128$; $P = 128 \times 128$; $Q = 256 \times 128 + 128 \times K$ |
-| OB 2x1,024 | $W_1 = 1{,}024$; $P = 1{,}024 \times 1{,}024$; $Q = 2{,}048 \times 1{,}024 + 1{,}024 \times K$ (batch normalisation folds into the weights) |
-| RNN 128 | $W_1 = 128$; $P = 128 \times 128 + 128 \times K$; $Q = 0$ |
-| LSTM 128, SHD | $W_1 = 4 \times 128$ (four gates); $P = 4 \times 128 \times 128 + 128 \times K$; $Q = 0$ |
-| LSTM 128, SSC | $W_1 = 4 \times 128$; $P = 4 \times 128 \times 128$; $Q = 128 \times 35$ (readout once, at the last window) |
+| Count classifier | each input spike added to its channel total, $S\,(2m + a)$; then $700 \to 256$ ($r = 1$, $z$ = non-empty totals) and $256 \to K$ ($r = 1$) |
+| OB scores 128 | $700 \to 128$ ($T$); $128 \to K$ ($T$) |
+| OB mean $h$ ($h = 128$ or $512$) | $700 \to h$ ($T$); $h \to 128$ (1); $128 \to K$ (1) |
+| OB 2x128 | $700 \to 128$ ($T$); $128 \to 128$ ($T$); $256 \to 128$ (1); $128 \to K$ (1) |
+| OB 2x1,024 | $700 \to 1{,}024$ ($T$); $1{,}024 \to 1{,}024$ ($T$); $2{,}048 \to 1{,}024$ (1); $1{,}024 \to K$ (1) (batch normalisation folds into the weights) |
+| RNN 128 | $700 \to 128$ ($T$); $128 \to 128$ ($T$); $128 \to K$ ($T$) |
+| LSTM 128, SHD | $700 \to 512$ ($T$, four gates); $128 \to 512$ ($T$); $128 \to K$ ($T$) |
+| LSTM 128, SSC | $700 \to 512$ ($T$); $128 \to 512$ ($T$); $128 \to 35$ (1, readout at the last window) |
 | SNN-FF 128 | each input reaches 128 neurons; each hidden spike reaches the $K$ readout units; 128 state updates per window |
 | SNN-R 128 | as SNN-FF 128, but each hidden spike also reaches the 128 neurons of its layer |
 | RadLIF 2x1,024 | each input reaches 1,024 neurons; a layer-1 spike reaches layer 2 (1,024) and its own layer (1,023); a layer-2 spike reaches its own layer (1,023) and the $K$ readout units; 2 state variables (voltage and adaptation) per neuron per window |
 
 ### 5.6 A worked example
 
-OB 2x128 on SHD at 25 windows, worst case. A test recording has on average $N = 3{,}806.27$ non-empty cells; $T = 25$, $C = 700$, $W_1 = 128$, $P = 16{,}384$, $Q = 35{,}328$ ($K = 20$):
+OB 2x128 on SHD at 25 windows, worst case ($T = 25$, $K = 20$). Each layer costs $r\,F\,O\,(4m + c)$, with $4m + c = 5.23$ pJ:
 
-- reading the input, $T\,C\,m$: $25 \times 700 \times 1.25 = 21{,}875$ pJ
-- first layer, $N\,W_1\,(3m + c)$: $3{,}806.27 \times 128 \times 3.98 = 1{,}939{,}081$ pJ
-- other layers, $(T\,P + Q)\,(4m + c)$: $(25 \times 16{,}384 + 35{,}328) \times 5.23 = 444{,}928 \times 5.23 = 2{,}326{,}973$ pJ
-- total: $4{,}287{,}929$ pJ, about $4.29\ \mu\text{J}$ per recording, the value the analysis reports for this design
+- layer 1, $700 \to 128$ in every window: $25 \times 700 \times 128 \times 5.23 = 11{,}715{,}200$ pJ
+- layer 2, $128 \to 128$ in every window: $25 \times 128 \times 128 \times 5.23 = 2{,}142{,}208$ pJ
+- layer 3, $256 \to 128$ once: $256 \times 128 \times 5.23 = 171{,}377$ pJ
+- layer 4, $128 \to 20$ once: $128 \times 20 \times 5.23 = 13{,}389$ pJ
+- total: $14{,}042{,}173$ pJ, about $14.0\ \mu\text{J}$ per recording, the value the analysis reports for this design (Table 4 of `04_analyze_results`). In the two best cases it is $4.87$ and $1.69\ \mu\text{J}$.
 
 ## 6. What these numbers can and cannot say
 
@@ -180,7 +187,7 @@ OB 2x128 on SHD at 25 windows, worst case. A test recording has on average $N = 
 - Every model is charged on the same imagined chip, so comparisons between models within one case are fair; the absolute values are indicative only.
 - The accounting covers on-chip memory and arithmetic for 8-bit numbers. It leaves out off-chip memory, idle and leakage power, and control logic.
 - The spiking neurons here are leaky (LIF and RadLIF). Dampfhoffer et al. found the simpler integrate-and-fire neuron more energy-efficient than leaky ones, but LIF neurons are closer to actual human brain neuron. 
-- The formulas in Section 5 are the ones implemented in the training notebooks (02_train_SHD and 03_train_SSC, Step 8), which follow the approach of Dampfhoffer et al.
+- The formulas in Section 5 are the ones implemented in `04_analyze_results.ipynb` (Step 6), which follow the approach of Dampfhoffer et al. The training notebooks compute no energy; they save the counts (input spikes, non-empty cells and hidden spikes) that the formulas need.
 
 ## References
 

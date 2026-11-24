@@ -34,31 +34,34 @@
 
 7. S. Hochreiter and J. Schmidhuber. Long Short-Term Memory. *Neural Computation* 9(8), 1735-1780
    (1997). doi:10.1162/neco.1997.9.8.1735. (The LSTM.)
-8. Keras 2.3.0, LSTM layer source code.
+8. F. A. Gers, J. Schmidhuber and F. Cummins. Learning to Forget: Continual Prediction with LSTM.
+   *Neural Computation* 12(10), 2451-2471 (2000). doi:10.1162/089976600300015015.
+   (The forget gate of the LSTMs used here; the 1997 LSTM had none.)
+9. Keras 2.3.0, LSTM layer source code.
    https://github.com/keras-team/keras/blob/2.3.0/keras/layers/recurrent.py
    (The defaults written out in `lstm_paper`: initialisers, forget-gate bias of 1, recurrent dropout.
    Its documentation lists the papers behind them.)
-9. D. P. Kingma and J. Ba. Adam: A Method for Stochastic Optimization. *International Conference on
-   Learning Representations (ICLR)* (2015). arXiv:1412.6980. (Adam for SHD, Adamax for SSC.)
-10. S. Ioffe and C. Szegedy. Batch Normalization: Accelerating Deep Network Training by Reducing
+10. D. P. Kingma and J. Ba. Adam: A Method for Stochastic Optimization. *International Conference on
+    Learning Representations (ICLR)* (2015). arXiv:1412.6980. (Adam for SHD, Adamax for SSC.)
+11. S. Ioffe and C. Szegedy. Batch Normalization: Accelerating Deep Network Training by Reducing
     Internal Covariate Shift. *Proceedings of the 32nd International Conference on Machine Learning*,
     PMLR 37, 448-456 (2015). (Used in RadLIF 2x1,024 and OB 2x1,024.)
 
 ## Order-blind designs
 
-11. M. Zaheer, S. Kottur, S. Ravanbakhsh, B. Poczos, R. Salakhutdinov and A. Smola. Deep Sets.
+12. M. Zaheer, S. Kottur, S. Ravanbakhsh, B. Poczos, R. Salakhutdinov and A. Smola. Deep Sets.
     *Advances in Neural Information Processing Systems 30* (2017). arXiv:1703.06114.
     (The form of every order-blind design, and so of the order-blind ceiling.)
-12. C. R. Qi, H. Su, K. Mo and L. J. Guibas. PointNet: Deep Learning on Point Sets for 3D
+13. C. R. Qi, H. Su, K. Mo and L. J. Guibas. PointNet: Deep Learning on Point Sets for 3D
     Classification and Segmentation. *2017 IEEE Conference on Computer Vision and Pattern Recognition
     (CVPR)*, 77-85 (2017). doi:10.1109/CVPR.2017.16. (Combining the windows by their maximum.)
 
 ## Energy
 
-13. M. Dampfhoffer, T. Mesquida, A. Valentian and L. Anghel. Are SNNs Really More Energy-Efficient Than
+14. M. Dampfhoffer, T. Mesquida, A. Valentian and L. Anghel. Are SNNs Really More Energy-Efficient Than
     ANNs? An In-Depth Hardware-Aware Study. *IEEE Transactions on Emerging Topics in Computational
     Intelligence* 7(3), 731-741 (2023; published online 2022). doi:10.1109/TETCI.2022.3214509.
-    (The energy question and the accounting method in Step 8.)
-14. M. Horowitz. Computing's energy problem (and what we can do about it). *2014 IEEE International
+    (The energy question and the accounting method of `04_analyze_results.ipynb`, Step 6.)
+15. M. Horowitz. Computing's energy problem (and what we can do about it). *2014 IEEE International
     Solid-State Circuits Conference (ISSCC), Digest of Technical Papers*, 10-14 (2014).
     doi:10.1109/ISSCC.2014.6757323. (The 45 nm costs of 8-bit memory reads and arithmetic.)
