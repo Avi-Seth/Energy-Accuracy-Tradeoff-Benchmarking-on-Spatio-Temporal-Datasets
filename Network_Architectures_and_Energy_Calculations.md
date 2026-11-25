@@ -186,6 +186,7 @@ OB 2x128 on SHD at 25 windows, worst case ($T = 25$, $K = 20$). Each layer costs
 - They are computed, not measured: no neuromorphic chip was used for measurments.
 - Every model is charged on the same imagined chip, so comparisons between models within one case are fair; the absolute values are indicative only.
 - The accounting covers on-chip memory and arithmetic for 8-bit numbers. It leaves out off-chip memory, idle and leakage power, and control logic.
+- Like Dampfhoffer et al., it charges only synaptic operations: biases, activation functions, and the sums and maxima over windows are not charged (together well under 1% of any model's energy as per sample manual calculatins).
 - The spiking neurons here are leaky (LIF and RadLIF). Dampfhoffer et al. found the simpler integrate-and-fire neuron more energy-efficient than leaky ones, but LIF neurons are closer to actual human brain neuron. 
 - The formulas in Section 5 are the ones implemented in `04_analyze_results.ipynb` (Step 6), which follow the approach of Dampfhoffer et al. The training notebooks compute no energy; they save the counts (input spikes, non-empty cells and hidden spikes) that the formulas need.
 
