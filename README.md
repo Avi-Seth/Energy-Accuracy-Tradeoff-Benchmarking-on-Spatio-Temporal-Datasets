@@ -1,50 +1,38 @@
 # Energy-Accuracy Tradeoff Benchmarking on Spatio-Temporal Datasets
 
-**To what extent networks use the order of events, and what does the extra accuracy cost in energy?**
+**To what extent do networks use the order of events, and what does the extra accuracy cost in energy?**
 
 An independent research project that extends my UCLA COSMOS 2026 project on the energy efficiency of
 spiking neural networks
 ([UCLA-COSMOS-SNN-Energy-efficiency](https://github.com/Avi-Seth/UCLA-COSMOS-SNN-Energy-efficiency)).
 
-**Status (24 Nov 2026):** training finished. Every run was repeated on 22 Nov 2026 with the
-notebooks in this repository, and every repeated run gave the same test accuracy and the same answer
-on every test recording as the saved run. I have not finished re-auditing the analysis and conclusions.
+**Status (24 Nov 2026):** Training finished. Every run repeated on 22 Nov 2026 w/ notebooks in this repository, and every run gave similar test accuracy and same answer. I have not finished the analysis.
 
-## Academic honesty: who did what
-
-I am a high-school student. This section says plainly what I did, what an AI assistant did, and which decisions were made after the results were known.
+## Credits Section:
 
 - **My work:** I read the research papers, framed the question (To what extent networks use the order of
-  events, and what the extra accuracy costs), designed the experiment (the order-blind ceiling, the
-  shuffled-window test, the drop = gain + deficit decomposition), chose the network architectures and
-  the energy cases, and am checking the analysis and the conclusions myself; the final check is in progress.
-- **How the question took shape:** After my COSMOS Project, I wanted to further explore the energy 
-  efficiency claims of SNNs on Spatio-temporal datasets. While reading further i saw research papers
-  using LSTM / RNN, and SNNs with RADLIF's on SHD & SSC datasets. Considering many different papers focusing on different 
-  network designs, i thought of benchmarking the energy efficiency estimates on similar sized networks.
-  I also included Deep sets inspired ANN designs as Order blind networks in this benchmarking.   
+  events, and what the extra accuracy costs), designed the experiment (order-blind ceiling,
+  shuffled-window test, and drop = gain + deficit modeling), chose the network architectures and energy cases, and I am currently analyzing the results.
+  I also included Deep-Set-inspired designs as order blind networks for the order-blind ceiling.   
 - **AI assistance:** Claude Opus (Anthropic) wrote most of the code to my specifications: dataset
   loading and checks, the model implementations, the energy accounting, and figures/charts. It also 
   helped draft the explanations in the notebooks, and this README which I edited.
-- **Help from Others:** I discussed the project idea with my School CS teacher, and my parents gave me feedback to
-  keep me stay focused and sharpen the work.
+- **Help from Others:** Discussed the project idea with my School CS teacher, and my father helped manage the training (due to school commitments).
 - **Other code:** the RadLIF model is adapted from SpArch (Idiap Research Institute, BSD-3-Clause), as
   credited below.
-- **Checking:** I ran every notebook, checked the results against the saved outputs, and take
-  responsibility for the code and the conclusions. On 22 Nov 2026 all 428 runs were repeated with the
-  published notebooks with an NVIDIA L4 GPU (PyTorch 2.14.1 on Google Colab). 
+- **Checking:** Every notebook has been run, and results have been checked against the outputs that are saved within the code files. I take responsibility for the code and the conclusions. On 22 Nov 2026, all 428 runs were repeated with the
+  published notebooks with an NVIDIA L4 GPU (PyTorch 2.14.1 on Google Colab).
 
 ### Decisions made after the results were known
 
-
-1. **Ten order-blind designs were dropped.** The first full runs on SHD also trained ten more
+1. **Ten order-blind designs dropped.** The first full runs on SHD also trained ten more
    order-blind designs (5 seeds at each of the two SHD settings, 100 runs). I dropped them to keep the
    study smaller and to use the same set of designs on SHD and SSC; finding the highest possible
    ceiling was not the aim. Their runs are published in `dropped_order_blind_designs.zip`.
    These designs were never trained on SSC. However, dropping of these designs does not materially change the analysis 
    and conclusions being drawn. Adding them back moves the 25-window ceiling from 83.4% to 84.2% and the LSTM's gain
    from +2.4 to +1.6 points.
-2. **The energy accounting** was revised after the runs in early November 2026, to follow Dampfhoffer et al.
+2. **Energy accounting** was revised after the runs in early November 2026, to follow Dampfhoffer et al.
    more closely: in the worst case the first layer of a conventional network now pays for every input
    cell, and the two best cases now charge every register access and memory access that their
    equations list. Energy is computed in `04_analyze_results`, from counts that the runs saved, so the
@@ -109,7 +97,7 @@ rule.*
   on SSC. On SHD at 14 ms the cheapest model above the ceiling, RadLIF 2x1,024, used 35.7 times the
   energy of SNN-R 128 for +21.6 points (worst case).
 
-  ![The price of accuracy](figures/figure4_price_of_accuracy.png)
+  ![The cost of accuracy](figures/figure4_price_of_accuracy.png)
 
   *Figure 4 of `04_analyze_results`: test accuracy against energy per recording (worst case, no data
   reuse; computed, not measured). Each line is a frontier; dashed lines are the order-blind ceilings.*
@@ -127,7 +115,7 @@ rule.*
 - Energy is computed from counts of operations and memory accesses on an imagined 8-bit chip, not
   measured on hardware. Only comparisons within one energy case are meaningful.
 - 5 seeds on SHD and 3 on SSC.
-- One control check is not met: on the negative control, the LSTM's accuracy rose 1.0 ± 0.3 points
+- On the negative control, the LSTM's accuracy rose 1.0 ± 0.3 points
   when its windows were shuffled again. The cause is not known.
 - The two published models were reproduced below their authors' figures: the SSC authors' LSTM set-up
   scored 67.3% (the authors report 75.0% with the same training loss), and RadLIF here
@@ -151,8 +139,8 @@ rule.*
 2. For `02` and `03`, choose a GPU: Runtime > Change runtime type.
 3. Runtime > Run all.
 
-Nothing else is needed for the quick test. A full run saves its results on Google Drive, so Colab asks
-once for permission. To keep your own changes to a notebook, use File > Save a copy in Drive.
+A full run saves its results on Google Drive, so Colab asks
+once for permission.
 
 **The data.** SHD and SSC are downloaded from the dataset authors' site, https://zenkelab.org/datasets/
 (SHD 169 MB; SSC 1.7 GB for all three of its files, 1.5 GB for the two that `03` uses). Every download
@@ -168,12 +156,11 @@ With `USE_DRIVE = True` (Step 1) the outputs are saved on your Google Drive inst
 
 ## The full study
 
-`02` and `03` run a quick test as they are set: a few recordings and one or two training epochs, so the
-numbers mean nothing, but every cell runs. For the full study, set `QUICK = False` in Step 1. The
+`02` and `03` run a test: some recordings and one or two training epochs. Numbers are insignificant, but every cell runs. For the full study, set `QUICK = False` in Step 1. The
 notebook then saves every run on your Google Drive the moment it ends. A full run can last longer than
 a Colab session; if the session stops, open the notebook again and choose Run all: runs already saved
 are skipped. For `03` also choose High-RAM (Runtime > Change runtime type): its 75,466 training
-recordings take about 5 GB of memory as 8-bit counts.
+recordings take about 5 GB of memory.
 
 Measured GPU hours on an NVIDIA L4. Before training, every notebook times each model on the GPU you have
 and prints its own estimate; a progress bar then shows the time left.
